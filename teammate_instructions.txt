@@ -1,0 +1,33 @@
+Run instructions for teammate (Parts 2 and 3)
+
+Use a machine with:
+- CUDA-enabled GPU
+- Python installed
+- internet access for the first model download
+
+Open PowerShell in the project folder:
+C:\Users\Arghyadeep Dhar\CS728_PA3
+
+1. Install dependencies
+pip install -r requirements.txt
+
+2. Login to Hugging Face
+huggingface-cli login
+
+3. Accept the Meta Llama license on Hugging Face for:
+meta-llama/Llama-3.2-1B-Instruct
+
+4. Download the model once so the offline code can find it later
+python -c "from transformers import AutoTokenizer, AutoModelForCausalLM; m='meta-llama/Llama-3.2-1B-Instruct'; AutoTokenizer.from_pretrained(m); AutoModelForCausalLM.from_pretrained(m)"
+
+5. Run Part 2
+python run2.py
+
+6. Run Part 3
+python run3.py
+
+Notes:
+- run2.py and run3.py expect the Llama model to already be cached locally.
+- The current code uses CUDA, so these scripts should be run on a GPU machine.
+- If the model license is not accepted, download will fail.
+- The starter code may still have non-TODO template bugs after model loading succeeds.

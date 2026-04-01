@@ -1,0 +1,18 @@
+{
+  "num_queries": 5000,
+  "num_tools": 100,
+  "metrics": {
+    "BM25": {
+      "recall@1": 0.2354,
+      "recall@5": 0.4142
+    },
+    "msmarco-MiniLM": {
+      "recall@1": 0.3514,
+      "recall@5": 0.5716
+    },
+    "UAE-large-v1": {
+      "recall@1": 0.618,
+      "recall@5": 0.8828
+    }
+  }
+}

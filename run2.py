@@ -39,6 +39,19 @@ def query_to_docs_attention(attentions, query_span, doc_spans):
     doc_scores = torch.zeros(len(doc_spans), device=attentions[0].device)
     
     # TODO 1: implement to get final query to doc attention stored in doc_scores
+    query_start, query_end = query_span
+    num_layers = len(attentions)
+
+    for layer_attn in attentions:
+        # [heads, query_len, seq_len]
+        query_attn = layer_attn[0, :, query_start:query_end, :]
+        for doc_idx, (doc_start, doc_end) in enumerate(doc_spans):
+            doc_attn = query_attn[:, :, doc_start:doc_end]
+            # Average across heads, query tokens, and document tokens so scores
+            # are comparable across different document lengths.
+            doc_scores[doc_idx] += doc_attn.mean()
+
+    doc_scores = doc_scores / num_layers
     return doc_scores
 
 
@@ -56,7 +69,42 @@ def analyze_gold_attention(result, save_path="plot2/gold_attention_plot.png"):
         - Save the plot as an image file under folder plot2.
         - You are free to choose how to aggregate and visualize the data.
     """
-    raise NotImplementedError
+    df = pd.DataFrame(result)
+    if df.empty:
+        return
+
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
+
+    df["gold_position"] = df["gold_position"].astype(int)
+    df["gold_score"] = df["gold_score"].astype(float)
+    grouped = (
+        df.groupby("gold_position", as_index=False)["gold_score"]
+        .mean()
+        .sort_values("gold_position")
+    )
+
+    plt.figure(figsize=(10, 6))
+    plt.scatter(
+        df["gold_position"],
+        df["gold_score"],
+        alpha=0.12,
+        s=14,
+        label="Per-query gold score",
+    )
+    plt.plot(
+        grouped["gold_position"],
+        grouped["gold_score"],
+        color="crimson",
+        linewidth=2,
+        label="Mean gold score",
+    )
+    plt.xlabel("Gold tool position in prompt")
+    plt.ylabel("Attention score assigned to gold tool")
+    plt.title("Gold Tool Attention vs Prompt Position")
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(save_path)
+    plt.close()
 
 def get_query_span():
     # TODO 3: Query span
@@ -64,7 +112,24 @@ def get_query_span():
     Identify the token span corresponding to the query.
     Note: you are free to add/remove args in this function
     """
-    return None
+    import inspect
+
+    frame = inspect.currentframe().f_back
+    question = frame.f_locals["question"]
+    putils = frame.f_locals["putils"]
+    tokenizer = frame.f_locals["tokenizer"]
+
+    query_prefix = (
+        putils.prompt_prefix
+        + putils.all_docs_info_string
+        + putils.prompt_seperator
+        + putils.add_text1
+        + putils.prompt_seperator
+        + "Query: "
+    )
+    query_start = len(tokenizer(query_prefix, add_special_tokens=False).input_ids)
+    query_length = len(tokenizer(question, add_special_tokens=False).input_ids)
+    return (query_start, query_start + query_length)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--seed', type=int, default=64)
@@ -152,8 +217,9 @@ if __name__ == '__main__':
 
         # TODO: find gold_rank- rank of gold tool in doc_scores
         # TODO: find gold_score - score of gold tool
-        gold_rank = None
-        gold_score = None
+        ranked_docs = torch.argsort(doc_scores, descending=True)
+        gold_rank = (ranked_docs == gold_tool_id).nonzero(as_tuple=True)[0].item()
+        gold_score = doc_scores[gold_tool_id].item()
         
         results.append({
             "qid": qid,
@@ -163,6 +229,20 @@ if __name__ == '__main__':
         })
 
         # TODO: calucalte recall@1, recall@5 metric and print at end of loop
+        if qix == 0:
+            correct_at_1 = 0
+            correct_at_5 = 0
+
+        if gold_rank == 0:
+            correct_at_1 += 1
+        if gold_rank < 5:
+            correct_at_5 += 1
+
+        if qix == len(test_queries) - 1:
+            recall_at_1 = correct_at_1 / len(test_queries)
+            recall_at_5 = correct_at_5 / len(test_queries)
+            print(f"Recall@1: {recall_at_1:.4f}")
+            print(f"Recall@5: {recall_at_5:.4f}")
 
     analyze_gold_attention(results)
 
