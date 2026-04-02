@@ -154,7 +154,7 @@ if __name__ == '__main__':
  
 
     print("---- debug print start ----")
-    print(f"seed: {args.seed}, dataset: {args.dataset}, model: {model_name}")
+    print(f"seed: {args.seed},  model: {model_name}")
     print("model.config._attn_implementation: ", model.config._attn_implementation)
 
     dict_head_freq = {}

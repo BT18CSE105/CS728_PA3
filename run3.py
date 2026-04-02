@@ -47,7 +47,16 @@ def query_to_docs_attention_heads(attentions, query_span, doc_spans, selected_he
 
     doc_scores = torch.zeros(len(doc_spans), device=attentions[0].device)
 
-    raise NotImplementedError
+    query_start, query_end = query_span
+
+    for layer_id, head_id in selected_heads:
+        query_attn = attentions[layer_id][0, head_id, query_start:query_end, :]
+        for doc_idx, (doc_start, doc_end) in enumerate(doc_spans):
+            doc_scores[doc_idx] += query_attn[:, doc_start:doc_end].mean()
+
+    if len(selected_heads) > 0:
+        doc_scores = doc_scores / len(selected_heads)
+    return doc_scores
 
 
 def get_query_span(input_ids, tokenizer):
@@ -56,7 +65,23 @@ def get_query_span(input_ids, tokenizer):
     Identify the token span corresponding to the query.
     Note: you are free to add/remove args in this function
     """
-    raise NotImplementedError
+    import inspect
+
+    frame = inspect.currentframe().f_back
+    question = frame.f_locals["question"]
+    putils = frame.f_locals["putils"]
+
+    query_prefix = (
+        putils.prompt_prefix
+        + putils.all_docs_info_string
+        + putils.prompt_seperator
+        + putils.add_text1
+        + putils.prompt_seperator
+        + "Query: "
+    )
+    query_start = len(tokenizer(query_prefix, add_special_tokens=False).input_ids)
+    query_length = len(tokenizer(question, add_special_tokens=False).input_ids)
+    return (query_start, query_start + query_length)
 
 
 parser = argparse.ArgumentParser()
@@ -144,7 +169,16 @@ if __name__ == '__main__':
 
 
         # TODO: measure the recall@1, recall@5
+        if qix == 0:
+            correct_at_5 = 0
+        if gold_rank == 0:
+            correct_at_1 += 1
+        if gold_rank < 5:
+            correct_at_5 += 1
         total += 1
+        if qix == len(test_queries) - 1:
+            recall_at_5 = correct_at_5 / total
+            print(f"Recall@5 (selected heads): {recall_at_5:.4f}")
 
     recall_at_1 = correct_at_1 / total
     print(f"\nRecall@1 (selected heads): {recall_at_1:.4f}")

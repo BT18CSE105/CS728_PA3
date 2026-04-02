@@ -53,9 +53,33 @@ def select_retrieval_heads(train_queries, model, tokenizer, tools, device, max_h
             attentions = model(**inputs).attentions 
 
         # Add your head scoring logic after this line
+        query_prefix = (
+            putils.prompt_prefix
+            + putils.all_docs_info_string
+            + putils.prompt_seperator
+            + putils.add_text1
+            + putils.prompt_seperator
+            + "Query: "
+        )
+        query_start = len(tokenizer(query_prefix, add_special_tokens=False).input_ids)
+        query_length = len(tokenizer(question, add_special_tokens=False).input_ids)
+        query_end = query_start + query_length
+        gold_tool_id = map_docname_id[gold_tool_name]
+
+        per_head_doc_scores = torch.zeros(num_layers, num_heads, len(item_spans), device=device)
+        for layer_id, layer_attn in enumerate(attentions):
+            query_attn = layer_attn[0, :, query_start:query_end, :]
+            for doc_idx, (doc_start, doc_end) in enumerate(item_spans):
+                per_head_doc_scores[layer_id, :, doc_idx] = query_attn[:, :, doc_start:doc_end].mean(dim=(1, 2))
+
+        ranked_docs = torch.argsort(per_head_doc_scores, dim=-1, descending=True)
+        gold_ranks = (ranked_docs == gold_tool_id).float().argmax(dim=-1).float()
+        head_scores += 1.0 / (gold_ranks + 1.0)
 
     # TODO: select top heads
-    selected_heads = []
+    flat_head_scores = head_scores.reshape(-1)
+    top_indices = torch.topk(flat_head_scores, k=max_heads).indices.tolist()
+    selected_heads = [(idx // num_heads, idx % num_heads) for idx in top_indices]
 
     # example expected format:
     # [(layer1, head3), (layer5, head10), ...]
