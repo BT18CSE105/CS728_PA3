@@ -133,8 +133,10 @@ if __name__ == '__main__':
         random.shuffle(shuffled_keys)
 
         putils = PromptUtils(
-            dataset="toole",
-            model_name=args.model,
+            # PromptUtils only accepts tokenizer/doc_ids/dict_all_docs in this starter code.
+            # Commenting out unsupported args so Part 3 can instantiate the prompt helper.
+            # dataset="toole",
+            # model_name=args.model,
             tokenizer=tokenizer,
             doc_ids=shuffled_keys,
             dict_all_docs=tools,
@@ -153,7 +155,7 @@ if __name__ == '__main__':
         with torch.no_grad():
             attentions = model(**inputs).attentions
 
-        query_span = get_query_span()
+        query_span = get_query_span(input_ids, tokenizer)
 
         doc_scores = query_to_docs_attention_heads(
             attentions,
