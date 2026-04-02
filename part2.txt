@@ -1,0 +1,7 @@
+The following generation flags are not valid and may be ignored: ['output_attentions']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+---- debug print start ----
+seed: 64,  model: meta-llama/Llama-3.2-1B-Instruct
+model.config._attn_implementation:  eager
+100%|██████████████████████████████████████▉| 4999/5000 [11:25<00:00,  7.61it/s]Recall@1: 0.0132
+Recall@5: 0.2584
+100%|███████████████████████████████████████| 5000/5000 [11:25<00:00,  7.29it/s]
