@@ -1,0 +1,112 @@
+// part 3 output
+
+The following generation flags are not valid and may be ignored: ['output_attentions']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+[Phase 1] Selecting retrieval heads...
+100%|█████████████████████████████████████████| 200/200 [00:26<00:00,  7.49it/s]
+Selected 10 heads
+[(8, 19), (6, 11), (7, 12), (4, 16), (2, 20), (10, 23), (8, 13), (10, 1), (6, 8), (5, 11)]
+
+[Phase 2] Evaluating on test set...
+100%|██████████████████████████████████████▉| 4999/5000 [09:59<00:00,  7.35it/s]Recall@5 (selected heads): 0.6708
+100%|███████████████████████████████████████| 5000/5000 [09:59<00:00,  8.33it/s]
+
+Recall@1 (selected heads): 0.4108
+The following generation flags are not valid and may be ignored: ['output_attentions']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+[Phase 1] Selecting retrieval heads...
+100%|█████████████████████████████████████████| 200/200 [00:26<00:00,  7.44it/s]
+Selected 20 heads
+[(8, 19), (6, 11), (7, 12), (4, 16), (2, 20), (10, 23), (8, 13), (10, 1), (6, 8), (5, 11), (8, 20), (10, 9), (5, 9), (8, 17), (5, 10), (6, 9), (12, 13), (10, 11), (10, 20), (10, 13)]
+
+[Phase 2] Evaluating on test set...
+100%|██████████████████████████████████████▉| 4999/5000 [11:38<00:00,  6.74it/s]Recall@5 (selected heads): 0.6306
+100%|███████████████████████████████████████| 5000/5000 [11:38<00:00,  7.16it/s]
+
+Recall@1 (selected heads): 0.3408
+The following generation flags are not valid and may be ignored: ['output_attentions']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+[Phase 1] Selecting retrieval heads...
+100%|█████████████████████████████████████████| 200/200 [00:26<00:00,  7.56it/s]
+Selected 30 heads
+[(8, 19), (6, 11), (7, 12), (4, 16), (2, 20), (10, 23), (8, 13), (10, 1), (6, 8), (5, 11), (8, 20), (10, 9), (5, 9), (8, 17), (5, 10), (6, 9), (12, 13), (10, 11), (10, 20), (10, 13), (13, 20), (10, 26), (10, 15), (5, 5), (12, 15), (8, 21), (8, 30), (5, 8), (12, 2), (11, 22)]
+
+[Phase 2] Evaluating on test set...
+100%|██████████████████████████████████████▉| 4999/5000 [13:18<00:00,  5.69it/s]Recall@5 (selected heads): 0.5924
+100%|███████████████████████████████████████| 5000/5000 [13:18<00:00,  6.26it/s]
+
+Recall@1 (selected heads): 0.2696
+The following generation flags are not valid and may be ignored: ['output_attentions']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+[Phase 1] Selecting retrieval heads...
+100%|█████████████████████████████████████████| 200/200 [00:26<00:00,  7.57it/s]
+Selected 10 heads
+[(7, 12), (10, 9), (8, 19), (6, 11), (8, 13), (10, 26), (8, 20), (1, 23), (10, 1), (12, 13)]
+
+[Phase 2] Evaluating on test set...
+100%|██████████████████████████████████████▉| 4999/5000 [10:01<00:00,  8.49it/s]Recall@5 (selected heads): 0.6324
+100%|███████████████████████████████████████| 5000/5000 [10:01<00:00,  8.31it/s]
+
+Recall@1 (selected heads): 0.1290
+The following generation flags are not valid and may be ignored: ['output_attentions']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+[Phase 1] Selecting retrieval heads...
+100%|█████████████████████████████████████████| 200/200 [00:31<00:00,  6.44it/s]
+Selected 20 heads
+[(7, 12), (10, 9), (8, 19), (6, 11), (8, 13), (10, 26), (8, 20), (1, 23), (10, 1), (12, 13), (10, 23), (6, 8), (5, 11), (10, 13), (8, 31), (12, 15), (12, 2), (10, 20), (10, 15), (11, 27)]
+
+[Phase 2] Evaluating on test set...
+100%|██████████████████████████████████████▉| 4999/5000 [12:15<00:00,  7.39it/s]Recall@5 (selected heads): 0.5836
+100%|███████████████████████████████████████| 5000/5000 [12:15<00:00,  6.80it/s]
+
+Recall@1 (selected heads): 0.1494
+The following generation flags are not valid and may be ignored: ['output_attentions']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+[Phase 1] Selecting retrieval heads...
+100%|█████████████████████████████████████████| 200/200 [00:27<00:00,  7.20it/s]
+Selected 30 heads
+[(7, 12), (10, 9), (8, 19), (6, 11), (8, 13), (10, 26), (8, 20), (1, 23), (10, 1), (12, 13), (10, 23), (6, 8), (5, 11), (10, 13), (8, 31), (12, 15), (12, 2), (10, 20), (10, 15), (11, 27), (8, 30), (10, 14), (4, 16), (13, 20), (11, 20), (8, 12), (7, 5), (5, 5), (13, 2), (11, 7)]
+
+[Phase 2] Evaluating on test set...
+100%|██████████████████████████████████████▉| 4999/5000 [13:12<00:00,  6.48it/s]Recall@5 (selected heads): 0.5512
+100%|███████████████████████████████████████| 5000/5000 [13:12<00:00,  6.31it/s]
+
+Recall@1 (selected heads): 0.1470
+The following generation flags are not valid and may be ignored: ['output_attentions']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+The following generation flags are not valid and may be ignored: ['output_attentions']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+[Phase 1] Selecting retrieval heads...
+100%|█████████████████████████████████████████| 200/200 [00:26<00:00,  7.41it/s]
+Selected 10 heads
+[(7, 12), (8, 19), (2, 20), (4, 16), (6, 11), (1, 23), (5, 11), (10, 23), (10, 1), (8, 20)]
+
+[Phase 2] Evaluating on test set...
+100%|██████████████████████████████████████▉| 4999/5000 [10:00<00:00,  8.51it/s]Recall@5 (selected heads): 0.6712
+100%|███████████████████████████████████████| 5000/5000 [10:00<00:00,  8.32it/s]
+
+Recall@1 (selected heads): 0.1220
+The following generation flags are not valid and may be ignored: ['output_attentions']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+
+100%|█████████████████████████████████████████| 200/200 [00:26<00:00,  7.57it/s]
+Selected 20 heads
+[(7, 12), (8, 19), (2, 20), (4, 16), (6, 11), (1, 23), (5, 11), (10, 23), (10, 1), (8, 20), (8, 13), (6, 8), (10, 9), (6, 9), (8, 17), (5, 9), (5, 10), (10, 20), (10, 15), (8, 21)]
+
+[Phase 2] Evaluating on test set...
+100%|██████████████████████████████████████▉| 4999/5000 [11:39<00:00,  7.37it/s]Recall@5 (selected heads): 0.6430
+100%|███████████████████████████████████████| 5000/5000 [11:39<00:00,  7.15it/s]
+
+Recall@1 (selected heads): 0.1666
+The following generation flags are not valid and may be ignored: ['output_attentions']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+[Phase 1] Selecting retrieval heads...
+100%|█████████████████████████████████████████| 200/200 [00:27<00:00,  7.35it/s]
+Selected 30 heads
+[(7, 12), (8, 19), (2, 20), (4, 16), (6, 11), (1, 23), (5, 11), (10, 23), (10, 1), (8, 20), (8, 13), (6, 8), (10, 9), (6, 9), (8, 17), (5, 9), (5, 10), (10, 20), (10, 15), (8, 21), (10, 11), (12, 13), (10, 26), (12, 15), (13, 20), (10, 13), (5, 5), (11, 22), (11, 27), (12, 2)]
+
+[Phase 2] Evaluating on test set...
+100%|██████████████████████████████████████▉| 4999/5000 [13:18<00:00,  6.54it/s]Recall@5 (selected heads): 0.6058
+100%|███████████████████████████████████████| 5000/5000 [13:18<00:00,  6.26it/s]
+
+Recall@1 (selected heads): 0.1634
