@@ -2,12 +2,14 @@
 Part 1: Classical retrieval baselines.
 
 Implements:
-- BM25 (sparse)
+- BM25 (sparse) // custom implementation by us, no external dependencies
 - msmarco-MiniLM (dense)
 - UAE-large-v1 (dense)
 
 The script evaluates Recall@1 and Recall@5 on the query split provided in
 the local JSON files.
+
+The answer will be in part1_1metrics.json after running the script. You can also run the script with
 """
 
 from __future__ import annotations
@@ -35,7 +37,7 @@ except ImportError as exc:
 try:
     from tqdm import tqdm
 except ImportError:
-    def tqdm(iterable, **_: object):  # type: ignore[misc]
+    def tqdm(iterable, **_: object):  
         return iterable
 
 
@@ -127,7 +129,6 @@ class BM25Retriever:
             doc_freq.update(term_counts.keys())
 
         for term, freq in doc_freq.items():
-            # Standard BM25 idf with +1 for numerical stability.
             self.idf[term] = math.log(1.0 + (self.num_docs - freq + 0.5) / (freq + 0.5))
 
     def score(self, query: str) -> np.ndarray:
@@ -379,7 +380,7 @@ def main() -> int:
                 trust_remote_code=trust_remote_code,
             )
             results[method_name] = metrics
-        except Exception as exc:  # pragma: no cover - runtime environment dependent
+        except Exception as exc:  
             print(f"\n{method_name} failed: {exc}")
 
     print_metrics_table(results)
